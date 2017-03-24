@@ -1,38 +1,38 @@
 package main
 
 import (
+	"controller"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"validator"
-	"controller"
 	"log"
-	"utils"
 	"net/http"
+	"utils"
+	"validator"
 )
 
 func main() {
 	var err error
 	validator.ValidateConf()
 
-	controller.DB,err= sql.Open(validator.NewConfig().GetDriver(), validator.NewConfig().GetDataSource())
+	controller.DB, err = sql.Open(validator.NewConfig().GetDriver(), validator.NewConfig().GetDataSource())
 	if nil != err {
 		log.Fatal(err)
 	}
-	_,err = controller.DB.Exec("CREATE DATABASE IF NOT EXISTS "+utils.DatabaseName)
+	_, err = controller.DB.Exec("CREATE DATABASE IF NOT EXISTS " + utils.DatabaseName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	_,err = controller.DB.Exec("USE "+utils.DatabaseName)
+	_, err = controller.DB.Exec("USE " + utils.DatabaseName)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_,err = controller.DB.Exec("CREATE TABLE IF NOT EXISTS  loginuser ( username varchar(32), password varchar(128) )")
+	_, err = controller.DB.Exec("CREATE TABLE IF NOT EXISTS  loginuser ( username varchar(32), password varchar(128) )")
 	if err != nil {
 		log.Fatal(err)
 	}
 	controller.DB.Close()
-	controller.DB, err = sql.Open(validator.NewConfig().GetDriver(), validator.NewConfig().GetDataSource() + utils.DatabaseName)
+	controller.DB, err = sql.Open(validator.NewConfig().GetDriver(), validator.NewConfig().GetDataSource()+utils.DatabaseName)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +41,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Server Listening on ",validator.NewConfig().GetServerADDR())
+	log.Println("Server Listening on ", validator.NewConfig().GetServerADDR())
 	http.HandleFunc("/register", controller.Register)
 	http.HandleFunc("/login", controller.LoginPage)
 	http.HandleFunc("/unregister", controller.DeleteUser)
