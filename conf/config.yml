@@ -1,0 +1,7 @@
+---
+driver : mysql
+datasource : root:root123@tcp(127.0.0.1:3306)/ 
+serverip : 192.168.204.130
+serverport : 8080
+ipformat : IPV4
+
