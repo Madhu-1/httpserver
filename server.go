@@ -8,8 +8,6 @@ import (
 	"log"
 	"utils"
 	"net/http"
-	_ "github.com/mattn/go-sqlite3"
-
 )
 
 func main() {
